@@ -14,8 +14,7 @@ import lombok.Setter;
 @Table(name = "post_offices")
 public class PostOffice {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long index;
 
     @Column(name = "name", nullable = false)
     private String name;
