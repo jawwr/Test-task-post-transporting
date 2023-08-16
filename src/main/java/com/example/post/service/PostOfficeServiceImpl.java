@@ -22,7 +22,7 @@ public class PostOfficeServiceImpl implements PostOfficeService {
             throw new PostOfficeAlreadyExistException("Post office with this index already exist");
         }
         if (office.getIndex() == 0) {
-            throw new IllegalArgumentException("Post office not exist");
+            throw new PostOfficeNotExistException("Post office index mustn't be 0");
         }
         return repository.save(office).getIndex();
     }

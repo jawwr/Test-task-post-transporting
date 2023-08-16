@@ -3,6 +3,7 @@ package com.example.post.controllers;
 import com.example.post.models.PostOffice;
 import com.example.post.service.PostOfficeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ public class PostOfficeController {
 
     @PostMapping
     public ResponseEntity<Long> createPostOffice(@RequestBody PostOffice office) {
-        return ResponseEntity.ok(service.createOffice(office));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.createOffice(office));
     }
 
     @GetMapping("/{officeId}")

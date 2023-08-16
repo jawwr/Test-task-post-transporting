@@ -16,13 +16,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "delivery_history")
 public class PackageDelivery {
-    public PackageDelivery(PostPackage postPackage, PostOffice postOffice, PackageDeliveryStatus deliveryStatus, LocalDateTime time) {
-        this.postPackage = postPackage;
-        this.postOffice = postOffice;
-        this.deliveryStatus = deliveryStatus;
-        this.time = time;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -40,4 +33,11 @@ public class PackageDelivery {
     @Column(name = "time", nullable = false)
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime time;
+
+    public PackageDelivery(PostPackage postPackage, PostOffice postOffice, PackageDeliveryStatus deliveryStatus, LocalDateTime time) {
+        this.postPackage = postPackage;
+        this.postOffice = postOffice;
+        this.deliveryStatus = deliveryStatus;
+        this.time = time;
+    }
 }

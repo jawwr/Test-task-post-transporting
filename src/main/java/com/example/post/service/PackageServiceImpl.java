@@ -1,5 +1,6 @@
 package com.example.post.service;
 
+import com.example.post.exception.PackageDeliveryException;
 import com.example.post.exception.PackageNotExistException;
 import com.example.post.exception.PackageStatusException;
 import com.example.post.models.PackageDelivery;
@@ -49,6 +50,9 @@ public class PackageServiceImpl implements PackageService {
         }
         if (getDeliveryStatus(packageId).getDeliveryStatus() == PackageDeliveryStatus.RECEIVE) {
             throw new PackageStatusException("Package with id " + packageId + " already received");
+        }
+        if (status == PackageDeliveryStatus.RECEIVE && savedPackage.getReceiveIndex() != postOfficeIndex) {
+            throw new PackageDeliveryException("Post office is not equals receive index");
         }
         PackageDelivery delivery = new PackageDelivery(savedPackage, fromPostOffice, status, LocalDateTime.now());
         packageDeliveryRepository.save(delivery);
