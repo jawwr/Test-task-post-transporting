@@ -29,7 +29,10 @@ public class PackageServiceImpl implements PackageService {
         var fromPostOffice = postOfficeService.getOfficeById(postOfficeIndex);
         var receivePostOffice = postOfficeService.getOfficeById(postPackage.getReceiveIndex());
         var savedPackage = repository.save(postPackage);
-        PackageDelivery delivery = new PackageDelivery(savedPackage, fromPostOffice, PackageDeliveryStatus.REGISTER, LocalDateTime.now());
+        PackageDelivery delivery = new PackageDelivery(savedPackage,
+                fromPostOffice,
+                PackageDeliveryStatus.REGISTER,
+                LocalDateTime.now());
         packageDeliveryRepository.save(delivery);
         return savedPackage.getId();
     }
