@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class PostPackageServiceTests {
         PostOffice toPostOffice = new PostOffice(123124, "", "");
         Mockito.when(postOfficeService.getOfficeById(toPostOffice.getIndex())).thenReturn(toPostOffice);
 
-        PackageDelivery delivery = new PackageDelivery(postPackage, fromPostOffice, PackageDeliveryStatus.REGISTER);
+        PackageDelivery delivery = new PackageDelivery(postPackage, fromPostOffice, PackageDeliveryStatus.REGISTER, LocalDateTime.now());
         Mockito.when(packageDeliveryRepository.save(delivery)).thenReturn(delivery);
 
         var packageId = service.register(fromPostOffice.getIndex(), postPackage);
@@ -96,7 +97,7 @@ public class PostPackageServiceTests {
 
         Mockito.when(repository.findById(postPackage.getId())).thenReturn(postPackage);
 
-        PackageDelivery delivery = new PackageDelivery(postPackage, fromPostOffice, status);
+        PackageDelivery delivery = new PackageDelivery(postPackage, fromPostOffice, status, LocalDateTime.now());
         Mockito.when(packageDeliveryRepository.save(delivery)).thenReturn(delivery);
         Mockito.when(packageDeliveryRepository.findTopByPostPackageId(postPackage.getId())).thenReturn(delivery);
 
@@ -120,7 +121,7 @@ public class PostPackageServiceTests {
 
         Mockito.when(repository.findById(postPackage.getId())).thenReturn(postPackage);
 
-        PackageDelivery delivery = new PackageDelivery(postPackage, fromPostOffice, PackageDeliveryStatus.RECEIVE);
+        PackageDelivery delivery = new PackageDelivery(postPackage, fromPostOffice, PackageDeliveryStatus.RECEIVE, LocalDateTime.now());
         Mockito.when(packageDeliveryRepository.findTopByPostPackageId(postPackage.getId())).thenReturn(delivery);
 
         Assertions.assertThrows(PackageStatusException.class, () -> service.updateDeliveryStatus(123123, 123, status));
@@ -172,7 +173,7 @@ public class PostPackageServiceTests {
         PostOffice postOffice = new PostOffice();
         postOffice.setIndex(123123);
 
-        PackageDelivery delivery = new PackageDelivery(postPackage, postOffice, status);
+        PackageDelivery delivery = new PackageDelivery(postPackage, postOffice, status, LocalDateTime.now());
 
         Mockito.when(packageDeliveryRepository.findTopByPostPackageId(postPackage.getId())).thenReturn(delivery);
 
@@ -204,9 +205,9 @@ public class PostPackageServiceTests {
         postOffice.setIndex(123123);
 
         var history = List.of(
-                new PackageDelivery(postPackage, postOffice, PackageDeliveryStatus.REGISTER),
-                new PackageDelivery(postPackage, postOffice, PackageDeliveryStatus.ARRIVE),
-                new PackageDelivery(postPackage, postOffice, PackageDeliveryStatus.DEPART)
+                new PackageDelivery(postPackage, postOffice, PackageDeliveryStatus.REGISTER, LocalDateTime.now()),
+                new PackageDelivery(postPackage, postOffice, PackageDeliveryStatus.ARRIVE, LocalDateTime.now().plusDays(1)),
+                new PackageDelivery(postPackage, postOffice, PackageDeliveryStatus.DEPART, LocalDateTime.now().plusDays(2))
         );
 
         Mockito.when(packageDeliveryRepository.findAllByPostPackageId(postPackage.getId())).thenReturn(history);

@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -28,7 +29,7 @@ public class PackageServiceImpl implements PackageService {
         var fromPostOffice = postOfficeService.getOfficeById(postOfficeIndex);
         var receivePostOffice = postOfficeService.getOfficeById(postPackage.getReceiveIndex());
         var savedPackage = repository.save(postPackage);
-        PackageDelivery delivery = new PackageDelivery(savedPackage, fromPostOffice, PackageDeliveryStatus.REGISTER);
+        PackageDelivery delivery = new PackageDelivery(savedPackage, fromPostOffice, PackageDeliveryStatus.REGISTER, LocalDateTime.now());
         packageDeliveryRepository.save(delivery);
         return savedPackage.getId();
     }
@@ -46,7 +47,7 @@ public class PackageServiceImpl implements PackageService {
         if (getDeliveryStatus(packageId).getDeliveryStatus() == PackageDeliveryStatus.RECEIVE) {
             throw new PackageStatusException("Package with id " + packageId + " already received");
         }
-        PackageDelivery delivery = new PackageDelivery(savedPackage, fromPostOffice, status);
+        PackageDelivery delivery = new PackageDelivery(savedPackage, fromPostOffice, status, LocalDateTime.now());
         packageDeliveryRepository.save(delivery);
     }
 
