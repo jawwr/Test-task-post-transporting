@@ -1,6 +1,7 @@
 package com.example.post.controllers;
 
 import com.example.post.models.PackageDelivery;
+import com.example.post.models.PackageDeliveryDto;
 import com.example.post.models.PostPackage;
 import com.example.post.service.PackageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/package/{packageId}")
+@RequestMapping("/api/v1/package")
 public class PackageController {
     private final PackageService service;
 
@@ -22,18 +23,18 @@ public class PackageController {
         this.service = service;
     }
 
-    @GetMapping
+    @GetMapping("/{packageId}")
     public ResponseEntity<PostPackage> getPackageInfo(@PathVariable("packageId") long packageId) {
         return ResponseEntity.ok(service.getPackageInfo(packageId));
     }
 
-    @GetMapping("/status")
-    public ResponseEntity<PackageDelivery> getDeliveryStatus(@PathVariable("packageId") long packageId) {
+    @GetMapping("/{packageId}/status")
+    public ResponseEntity<PackageDeliveryDto> getDeliveryStatus(@PathVariable("packageId") long packageId) {
         return ResponseEntity.ok(service.getDeliveryStatus(packageId));
     }
 
-    @GetMapping("/history")
-    public ResponseEntity<List<PackageDelivery>> getDeliveryHistory(@PathVariable("packageId") long packageId) {
+    @GetMapping("/{packageId}/history")
+    public ResponseEntity<List<PackageDeliveryDto>> getDeliveryHistory(@PathVariable("packageId") long packageId) {
         return ResponseEntity.ok(service.getPackageDeliveryHistory(packageId));
     }
 }
