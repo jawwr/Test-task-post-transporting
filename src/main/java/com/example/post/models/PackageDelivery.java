@@ -23,7 +23,7 @@ public class PackageDelivery {
     @ManyToOne(fetch = FetchType.LAZY)
     private PostPackage postPackage;
 
-    @OneToOne
+    @ManyToOne
     private PostOffice postOffice;
 
     @Column(name = "delivery_status")

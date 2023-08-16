@@ -21,14 +21,13 @@ public class PackageDeliveryController {
     @PostMapping
     public ResponseEntity<?> registerPackage(@PathVariable("postOffice") long postOffice,
                                              @RequestBody PostPackage postPackage) {
-        service.register(postOffice, postPackage);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.register(postOffice, postPackage));
     }
 
     @PutMapping("/{packageId}/status")
     public ResponseEntity<?> updateStatus(@PathVariable("postOffice") long postOffice,
-                                    @PathVariable("packageId") long packageId,
-                                    @RequestParam(value = "status", required = true) PackageDeliveryStatus status) {
+                                          @PathVariable("packageId") long packageId,
+                                          @RequestParam(value = "status", required = true) PackageDeliveryStatus status) {
         service.updateDeliveryStatus(postOffice, packageId, status);
         return ResponseEntity.ok().build();
     }

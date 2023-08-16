@@ -63,7 +63,7 @@ public class PackageServiceImpl implements PackageService {
 
     @Override
     public PackageDeliveryDto getDeliveryStatus(long packageId) {
-        var delivery = packageDeliveryRepository.findTopByPostPackageId(packageId);
+        var delivery = packageDeliveryRepository.findLastMovement(packageId);
         if (delivery == null) {
             throw new PackageNotExistException("Package with id " + packageId + " does not exist");
         }

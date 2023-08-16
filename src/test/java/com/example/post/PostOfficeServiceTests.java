@@ -52,7 +52,7 @@ public class PostOfficeServiceTests {
         PostOffice office = new PostOffice(0, "post office name", "receiver address");
         Mockito.when(repository.findById(office.getIndex())).thenReturn(null);
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> service.createOffice(office));
+        Assertions.assertThrows(PostOfficeNotExistException.class, () -> service.createOffice(office));
 
         Mockito.verify(repository).findById(office.getIndex());
     }

@@ -8,6 +8,7 @@ import com.example.post.repositories.PackageDeliveryRepository;
 import com.example.post.repositories.PackageRepository;
 import com.example.post.service.PackageServiceImpl;
 import com.example.post.service.PostOfficeService;
+import com.example.post.service.utils.PackageDeliveryDtoConverter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -29,6 +30,8 @@ public class PostPackageServiceTests {
     private PostOfficeService postOfficeService;
     @Mock
     private PackageDeliveryRepository packageDeliveryRepository;
+    @Mock
+    private PackageDeliveryDtoConverter converter;
 
     @Before
     public void setUp() {
@@ -99,7 +102,10 @@ public class PostPackageServiceTests {
 
         PackageDelivery delivery = new PackageDelivery(postPackage, fromPostOffice, status, LocalDateTime.now());
         Mockito.when(packageDeliveryRepository.save(delivery)).thenReturn(delivery);
-        Mockito.when(packageDeliveryRepository.findTopByPostPackageId(postPackage.getId())).thenReturn(delivery);
+        Mockito.when(packageDeliveryRepository.findLastMovement(postPackage.getId())).thenReturn(delivery);
+
+        var dto = new PackageDeliveryDto(delivery.getId(), delivery.getPostPackage().getId(), delivery.getPostOffice().getIndex(), delivery.getDeliveryStatus(), delivery.getTime());
+        Mockito.when(converter.convert(delivery)).thenReturn(dto);
 
         service.updateDeliveryStatus(fromPostOffice.getIndex(), postPackage.getId(), status);
 
@@ -122,7 +128,9 @@ public class PostPackageServiceTests {
         Mockito.when(repository.findById(postPackage.getId())).thenReturn(postPackage);
 
         PackageDelivery delivery = new PackageDelivery(postPackage, fromPostOffice, PackageDeliveryStatus.RECEIVE, LocalDateTime.now());
-        Mockito.when(packageDeliveryRepository.findTopByPostPackageId(postPackage.getId())).thenReturn(delivery);
+        Mockito.when(packageDeliveryRepository.findLastMovement(postPackage.getId())).thenReturn(delivery);
+        var dto = new PackageDeliveryDto(delivery.getId(), delivery.getPostPackage().getId(), delivery.getPostOffice().getIndex(), delivery.getDeliveryStatus(), delivery.getTime());
+        Mockito.when(converter.convert(delivery)).thenReturn(dto);
 
         Assertions.assertThrows(PackageStatusException.class, () -> service.updateDeliveryStatus(123123, 123, status));
     }
@@ -175,9 +183,9 @@ public class PostPackageServiceTests {
 
         PackageDelivery delivery = new PackageDelivery(postPackage, postOffice, status, LocalDateTime.now());
 
-        Mockito.when(packageDeliveryRepository.findTopByPostPackageId(postPackage.getId())).thenReturn(delivery);
+        Mockito.when(packageDeliveryRepository.findLastMovement(postPackage.getId())).thenReturn(delivery);
 
-        Assertions.assertEquals(delivery, service.getDeliveryStatus(123));
+        Assertions.assertEquals(converter.convert(delivery), service.getDeliveryStatus(123));
     }
 
     @Test
@@ -188,7 +196,7 @@ public class PostPackageServiceTests {
                 "receiver address",
                 PackageType.LETTER);
 
-        Mockito.when(packageDeliveryRepository.findTopByPostPackageId(postPackage.getId())).thenReturn(null);
+        Mockito.when(packageDeliveryRepository.findLastMovement(postPackage.getId())).thenReturn(null);
 
         Assertions.assertThrows(PackageNotExistException.class, () -> service.getDeliveryStatus(123));
     }
@@ -210,9 +218,33 @@ public class PostPackageServiceTests {
                 new PackageDelivery(postPackage, postOffice, PackageDeliveryStatus.DEPART, LocalDateTime.now().plusDays(2))
         );
 
+        var dto1 = new PackageDeliveryDto(history.get(0).getId(),
+                history.get(0).getPostPackage().getId(),
+                history.get(0).getPostOffice().getIndex(),
+                history.get(0).getDeliveryStatus(),
+                history.get(0).getTime());
+        var dto2 = new PackageDeliveryDto(history.get(1).getId(),
+                history.get(1).getPostPackage().getId(),
+                history.get(1).getPostOffice().getIndex(),
+                history.get(1).getDeliveryStatus(),
+                history.get(1).getTime());
+        var dto3 = new PackageDeliveryDto(history.get(2).getId(),
+                history.get(2).getPostPackage().getId(),
+                history.get(2).getPostOffice().getIndex(),
+                history.get(2).getDeliveryStatus(),
+                history.get(2).getTime());
+        var result = List.of(
+                dto1,
+                dto2,
+                dto3
+        );
+        Mockito.when(converter.convert(history.get(0))).thenReturn(dto1);
+        Mockito.when(converter.convert(history.get(1))).thenReturn(dto2);
+        Mockito.when(converter.convert(history.get(2))).thenReturn(dto3);
+
         Mockito.when(packageDeliveryRepository.findAllByPostPackageId(postPackage.getId())).thenReturn(history);
 
-        Assertions.assertEquals(history, service.getPackageDeliveryHistory(123));
+        Assertions.assertEquals(result, service.getPackageDeliveryHistory(123));
     }
 
     @Test

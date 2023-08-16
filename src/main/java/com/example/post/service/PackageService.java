@@ -1,6 +1,5 @@
 package com.example.post.service;
 
-import com.example.post.models.PackageDelivery;
 import com.example.post.models.PackageDeliveryDto;
 import com.example.post.models.PackageDeliveryStatus;
 import com.example.post.models.PostPackage;
