@@ -26,4 +26,10 @@ public class PackageDelivery {
     @Column(name = "delivery_status")
     @Enumerated(EnumType.STRING)
     private PackageDeliveryStatus deliveryStatus;
+
+    public PackageDelivery(PostPackage postPackage, PostOffice postOffice, PackageDeliveryStatus deliveryStatus) {
+        this.postPackage = postPackage;
+        this.postOffice = postOffice;
+        this.deliveryStatus = deliveryStatus;
+    }
 }

@@ -1,7 +1,6 @@
 package com.example.post.controllers;
 
 import com.example.post.models.PackageDelivery;
-import com.example.post.models.PackageDeliveryStatus;
 import com.example.post.models.PostPackage;
 import com.example.post.service.PackageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ public class PackageController {
     }
 
     @GetMapping("/status")
-    public ResponseEntity<PackageDeliveryStatus> getDeliveryStatus(@PathVariable("packageId") long packageId) {
+    public ResponseEntity<PackageDelivery> getDeliveryStatus(@PathVariable("packageId") long packageId) {
         return ResponseEntity.ok(service.getDeliveryStatus(packageId));
     }
 

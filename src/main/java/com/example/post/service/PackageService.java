@@ -7,15 +7,11 @@ import com.example.post.models.PostPackage;
 import java.util.List;
 
 public interface PackageService {
-    void register(long postOffice, PostPackage postPackage);
+    long register(long postOfficeIndex, PostPackage postPackage);
 
-    void arrive(long postOfficeIndex, long packageId);
+    void updateDeliveryStatus(long postOfficeIndex, long packageId, PackageDeliveryStatus status);
 
-    void departPackage(long postOffice, long packageId);
-
-    void receivePackage(long postOffice, long packageId);
-
-    PackageDeliveryStatus getDeliveryStatus(long packageId);
+    PackageDelivery getDeliveryStatus(long packageId);
 
     List<PackageDelivery> getPackageDeliveryHistory(long packageId);
 

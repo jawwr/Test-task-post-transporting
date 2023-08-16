@@ -1,5 +1,6 @@
 package com.example.post.controllers;
 
+import com.example.post.models.PackageDeliveryStatus;
 import com.example.post.models.PostPackage;
 import com.example.post.service.PackageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,24 +25,11 @@ public class PackageDeliveryController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PutMapping("/{packageId}")
-    public ResponseEntity<?> arrive(@PathVariable("postOffice") long postOffice,
-                                    @PathVariable("packageId") long packageId) {
-        service.arrive(postOffice, packageId);
-        return ResponseEntity.ok().build();
-    }
-
-    @PutMapping("/{packageId}")
-    public ResponseEntity<?> departPackage(@PathVariable("postOffice") long postOffice,
-                                           @PathVariable("packageId") long packageId) {
-        service.departPackage(postOffice, packageId);
-        return ResponseEntity.ok().build();
-    }
-
-    @PutMapping("/{packageId}")
-    public ResponseEntity<?> receivePackage(@PathVariable("postOffice") long postOffice,
-                                            @PathVariable("packageId") long packageId) {
-        service.receivePackage(postOffice, packageId);
+    @PutMapping("/{packageId}/status")
+    public ResponseEntity<?> updateStatus(@PathVariable("postOffice") long postOffice,
+                                    @PathVariable("packageId") long packageId,
+                                    @RequestParam(value = "status", required = true) PackageDeliveryStatus status) {
+        service.updateDeliveryStatus(postOffice, packageId, status);
         return ResponseEntity.ok().build();
     }
 }

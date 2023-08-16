@@ -30,4 +30,11 @@ public class PostPackage {
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
     private PackageType type;
+
+    public PostPackage(long receiveIndex, String receiverName, String receiverAddress, PackageType type) {
+        this.receiveIndex = receiveIndex;
+        this.receiverName = receiverName;
+        this.receiverAddress = receiverAddress;
+        this.type = type;
+    }
 }
