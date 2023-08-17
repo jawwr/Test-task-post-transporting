@@ -1,6 +1,6 @@
 package com.example.post.exception;
 
-public class PackageStatusException extends RuntimeException{
+public class PackageStatusException extends RuntimeException {
     public PackageStatusException(String message) {
         super(message);
     }

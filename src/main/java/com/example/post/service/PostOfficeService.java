@@ -3,7 +3,7 @@ package com.example.post.service;
 import com.example.post.models.PostOffice;
 
 public interface PostOfficeService {
-    long createOffice(PostOffice office);
+    long createPostOffice(PostOffice office);
 
-    PostOffice getOfficeById(long postOfficeId);
+    PostOffice getPostOfficeByIndex(long postOfficeId);
 }

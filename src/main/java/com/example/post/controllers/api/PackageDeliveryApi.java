@@ -70,7 +70,7 @@ public interface PackageDeliveryApi {
             )
     })
     @PutMapping("/{packageId}/status")
-    ResponseEntity<Void> updateStatus(@PathVariable("postOfficeId") long postOfficeId,
-                                      @PathVariable("packageId") long packageId,
-                                      @RequestParam(value = "status") PackageDeliveryStatus status);
+    ResponseEntity<Void> updatePackageDeliveryStatus(@PathVariable("postOfficeId") long postOfficeId,
+                                                     @PathVariable("packageId") long packageId,
+                                                     @RequestParam(value = "status") PackageDeliveryStatus status);
 }

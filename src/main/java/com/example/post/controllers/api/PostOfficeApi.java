@@ -1,7 +1,6 @@
 package com.example.post.controllers.api;
 
 import com.example.post.models.PostOffice;
-import com.example.post.models.PostPackage;
 import com.example.post.models.util.ErrorMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

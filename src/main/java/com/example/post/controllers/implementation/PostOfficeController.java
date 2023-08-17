@@ -19,11 +19,11 @@ public class PostOfficeController implements PostOfficeApi {
 
     @Override
     public ResponseEntity<Long> createPostOffice(PostOffice office) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.createOffice(office));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.createPostOffice(office));
     }
 
     @Override
     public ResponseEntity<PostOffice> getPostOfficeById(long officeId) {
-        return ResponseEntity.ok(service.getOfficeById(officeId));
+        return ResponseEntity.ok(service.getPostOfficeByIndex(officeId));
     }
 }

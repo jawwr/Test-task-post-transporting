@@ -30,8 +30,8 @@ public class PackageServiceImpl implements PackageService {
     @Override
     @Transactional
     public long register(long postOfficeIndex, PostPackage postPackage) {
-        var fromPostOffice = postOfficeService.getOfficeById(postOfficeIndex);
-        postOfficeService.getOfficeById(postPackage.getReceiveIndex());
+        var fromPostOffice = postOfficeService.getPostOfficeByIndex(postOfficeIndex);
+        postOfficeService.getPostOfficeByIndex(postPackage.getReceiveIndex());
         var savedPackage = repository.save(postPackage);
         PackageDelivery delivery = new PackageDelivery(savedPackage,
                 fromPostOffice,
@@ -49,7 +49,7 @@ public class PackageServiceImpl implements PackageService {
         if (status == PackageDeliveryStatus.REGISTER) {
             throw new PackageStatusException("Exists package mustn't be registered twice");
         }
-        var fromPostOffice = postOfficeService.getOfficeById(postOfficeIndex);
+        var fromPostOffice = postOfficeService.getPostOfficeByIndex(postOfficeIndex);
         var savedPackage = repository.findById(packageId);
         if (savedPackage == null) {
             throw new PackageNotExistException("Package with id " + packageId + " does not exist");

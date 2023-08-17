@@ -20,14 +20,14 @@ public class PackageDeliveryController implements PackageDeliveryApi {
 
     @Override
     public ResponseEntity<Long> registerPackage(long postOffice,
-                                             PostPackage postPackage) {
+                                                PostPackage postPackage) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.register(postOffice, postPackage));
     }
 
     @Override
-    public ResponseEntity<Void> updateStatus(long postOfficeId,
-                                          long packageId,
-                                          PackageDeliveryStatus status) {
+    public ResponseEntity<Void> updatePackageDeliveryStatus(long postOfficeId,
+                                                            long packageId,
+                                                            PackageDeliveryStatus status) {
         service.updateDeliveryStatus(postOfficeId, packageId, status);
         return ResponseEntity.ok().build();
     }

@@ -47,10 +47,10 @@ public class PostPackageServiceTests {
         Mockito.when(repository.save(postPackage)).thenReturn(postPackage);
 
         PostOffice fromPostOffice = new PostOffice(123123, "", "");
-        Mockito.when(postOfficeService.getOfficeById(fromPostOffice.getIndex())).thenReturn(fromPostOffice);
+        Mockito.when(postOfficeService.getPostOfficeByIndex(fromPostOffice.getIndex())).thenReturn(fromPostOffice);
 
         PostOffice toPostOffice = new PostOffice(123124, "", "");
-        Mockito.when(postOfficeService.getOfficeById(toPostOffice.getIndex())).thenReturn(toPostOffice);
+        Mockito.when(postOfficeService.getPostOfficeByIndex(toPostOffice.getIndex())).thenReturn(toPostOffice);
 
         PackageDelivery delivery = new PackageDelivery(postPackage, fromPostOffice, PackageDeliveryStatus.REGISTER, LocalDateTime.now());
         Mockito.when(packageDeliveryRepository.save(delivery)).thenReturn(delivery);
@@ -66,7 +66,7 @@ public class PostPackageServiceTests {
                 "receiver address",
                 PackageType.LETTER);
         Mockito.when(repository.save(postPackage)).thenReturn(postPackage);
-        Mockito.when(postOfficeService.getOfficeById(123123)).thenThrow(PostOfficeNotExistException.class);
+        Mockito.when(postOfficeService.getPostOfficeByIndex(123123)).thenThrow(PostOfficeNotExistException.class);
 
         Assertions.assertThrows(PostOfficeNotExistException.class, () -> service.register(123123, postPackage));
     }
@@ -79,9 +79,9 @@ public class PostPackageServiceTests {
                 PackageType.LETTER);
         Mockito.when(repository.save(postPackage)).thenReturn(postPackage);
         PostOffice fromPostOffice = new PostOffice(123123, "", "");
-        Mockito.when(postOfficeService.getOfficeById(fromPostOffice.getIndex())).thenReturn(fromPostOffice);
+        Mockito.when(postOfficeService.getPostOfficeByIndex(fromPostOffice.getIndex())).thenReturn(fromPostOffice);
         PostOffice toPostOffice = new PostOffice(123124, "", "");
-        Mockito.when(postOfficeService.getOfficeById(toPostOffice.getIndex())).thenThrow(PostOfficeNotExistException.class);
+        Mockito.when(postOfficeService.getPostOfficeByIndex(toPostOffice.getIndex())).thenThrow(PostOfficeNotExistException.class);
 
         Assertions.assertThrows(PostOfficeNotExistException.class, () -> service.register(fromPostOffice.getIndex(), postPackage));
     }
@@ -96,7 +96,7 @@ public class PostPackageServiceTests {
         PackageDeliveryStatus status = PackageDeliveryStatus.ARRIVE;
 
         PostOffice fromPostOffice = new PostOffice(123123, "", "");
-        Mockito.when(postOfficeService.getOfficeById(fromPostOffice.getIndex())).thenReturn(fromPostOffice);
+        Mockito.when(postOfficeService.getPostOfficeByIndex(fromPostOffice.getIndex())).thenReturn(fromPostOffice);
 
         Mockito.when(repository.findById(postPackage.getId())).thenReturn(postPackage);
 
@@ -110,7 +110,7 @@ public class PostPackageServiceTests {
         service.updateDeliveryStatus(fromPostOffice.getIndex(), postPackage.getId(), status);
 
         Mockito.verify(repository).findById(123);
-        Mockito.verify(postOfficeService).getOfficeById(fromPostOffice.getIndex());
+        Mockito.verify(postOfficeService).getPostOfficeByIndex(fromPostOffice.getIndex());
     }
 
     @Test
@@ -123,7 +123,7 @@ public class PostPackageServiceTests {
         PackageDeliveryStatus status = PackageDeliveryStatus.ARRIVE;
 
         PostOffice fromPostOffice = new PostOffice(123123, "", "");
-        Mockito.when(postOfficeService.getOfficeById(fromPostOffice.getIndex())).thenReturn(fromPostOffice);
+        Mockito.when(postOfficeService.getPostOfficeByIndex(fromPostOffice.getIndex())).thenReturn(fromPostOffice);
 
         Mockito.when(repository.findById(postPackage.getId())).thenReturn(postPackage);
 
@@ -145,7 +145,7 @@ public class PostPackageServiceTests {
         PackageDeliveryStatus status = PackageDeliveryStatus.REGISTER;
 
         PostOffice fromPostOffice = new PostOffice(123123, "", "");
-        Mockito.when(postOfficeService.getOfficeById(fromPostOffice.getIndex())).thenReturn(fromPostOffice);
+        Mockito.when(postOfficeService.getPostOfficeByIndex(fromPostOffice.getIndex())).thenReturn(fromPostOffice);
 
         Mockito.when(repository.findById(postPackage.getId())).thenReturn(postPackage);
 
@@ -166,7 +166,7 @@ public class PostPackageServiceTests {
                 PackageType.LETTER);
         PackageDeliveryStatus status = PackageDeliveryStatus.ARRIVE;
 
-        Mockito.when(postOfficeService.getOfficeById(123123)).thenThrow(PostOfficeNotExistException.class);
+        Mockito.when(postOfficeService.getPostOfficeByIndex(123123)).thenThrow(PostOfficeNotExistException.class);
 
         Assertions.assertThrows(PostOfficeNotExistException.class,
                 () -> service.updateDeliveryStatus(123123, postPackage.getId(), status));
@@ -182,7 +182,7 @@ public class PostPackageServiceTests {
         PackageDeliveryStatus status = PackageDeliveryStatus.ARRIVE;
 
         PostOffice fromPostOffice = new PostOffice(123123, "", "");
-        Mockito.when(postOfficeService.getOfficeById(fromPostOffice.getIndex())).thenReturn(fromPostOffice);
+        Mockito.when(postOfficeService.getPostOfficeByIndex(fromPostOffice.getIndex())).thenReturn(fromPostOffice);
 
         Mockito.when(repository.findById(postPackage.getId())).thenReturn(null);
 

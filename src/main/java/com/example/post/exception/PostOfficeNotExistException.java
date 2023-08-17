@@ -1,6 +1,6 @@
 package com.example.post.exception;
 
-public class PostOfficeNotExistException extends RuntimeException{
+public class PostOfficeNotExistException extends RuntimeException {
     public PostOfficeNotExistException(String message) {
         super(message);
     }

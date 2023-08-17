@@ -17,8 +17,8 @@ public class PostOfficeServiceImpl implements PostOfficeService {
 
     @Override
     @Transactional
-    public long createOffice(PostOffice office) {
-        if (repository.findById(office.getIndex()) != null) {
+    public long createPostOffice(PostOffice office) {
+        if (repository.findByIndex(office.getIndex()) != null) {
             throw new PostOfficeAlreadyExistException("Post office with this index already exist");
         }
         if (office.getIndex() == 0) {
@@ -28,8 +28,8 @@ public class PostOfficeServiceImpl implements PostOfficeService {
     }
 
     @Override
-    public PostOffice getOfficeById(long postOfficeId) {
-        var savedPostOffice = repository.findById(postOfficeId);
+    public PostOffice getPostOfficeByIndex(long postOfficeId) {
+        var savedPostOffice = repository.findByIndex(postOfficeId);
         if (savedPostOffice == null) {
             throw new PostOfficeNotExistException("Post office with id " + postOfficeId + " not exists");
         }
