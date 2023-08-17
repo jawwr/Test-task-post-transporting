@@ -7,4 +7,4 @@
 - DB: Postgres
 - Docs: Swagger
 
-## Docs on endpoint "\<host>:8000/swagger-ui/index.html
+## Docs on endpoint "\<host>:8000/swagger-ui/index.html"
