@@ -19,12 +19,13 @@ public interface PackageDeliveryApi {
     @Operation(summary = "Register package")
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "200",
+                    responseCode = "201",
+                    description = "Return registered package id",
                     content = {
                             @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(
-                                            implementation = PostPackage.class
+                                            implementation = Long.class
                                     )
                             )
                     }
@@ -42,7 +43,7 @@ public interface PackageDeliveryApi {
             )
     })
     @PostMapping
-    ResponseEntity<?> registerPackage(@PathVariable("postOfficeId") long postOffice, @RequestBody PostPackage postPackage);
+    ResponseEntity<Long> registerPackage(@PathVariable("postOfficeId") long postOffice, @RequestBody PostPackage postPackage);
 
     @Operation(summary = "Update package delivery status",
             parameters = @Parameter(
@@ -54,15 +55,7 @@ public interface PackageDeliveryApi {
     )
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "200",
-                    content = {
-                            @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(
-                                            implementation = PostPackage.class
-                                    )
-                            )
-                    }
+                    responseCode = "200"
             ),
             @ApiResponse(
                     responseCode = "400",
@@ -77,7 +70,7 @@ public interface PackageDeliveryApi {
             )
     })
     @PutMapping("/{packageId}/status")
-    ResponseEntity<?> updateStatus(@PathVariable("postOfficeId") long postOfficeId,
-                                   @PathVariable("packageId") long packageId,
-                                   @RequestParam(value = "status") PackageDeliveryStatus status);
+    ResponseEntity<Void> updateStatus(@PathVariable("postOfficeId") long postOfficeId,
+                                      @PathVariable("packageId") long packageId,
+                                      @RequestParam(value = "status") PackageDeliveryStatus status);
 }

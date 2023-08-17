@@ -18,12 +18,13 @@ public interface PostOfficeApi {
     @Operation(summary = "Create post office")
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "200",
+                    responseCode = "201",
+                    description = "Return created post office index",
                     content = {
                             @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(
-                                            implementation = PostPackage.class
+                                            implementation = Long.class
                                     )
                             )
                     }
@@ -51,7 +52,7 @@ public interface PostOfficeApi {
                             @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(
-                                            implementation = PostPackage.class
+                                            implementation = PostOffice.class
                                     )
                             )
                     }

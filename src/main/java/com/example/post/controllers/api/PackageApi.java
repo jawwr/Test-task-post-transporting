@@ -4,6 +4,7 @@ import com.example.post.models.PackageDeliveryDto;
 import com.example.post.models.PostPackage;
 import com.example.post.models.util.ErrorMessage;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -55,7 +56,7 @@ public interface PackageApi {
                             @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(
-                                            implementation = PostPackage.class
+                                            implementation = PackageDeliveryDto.class
                                     )
                             )
                     }
@@ -82,8 +83,10 @@ public interface PackageApi {
                     content = {
                             @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(
-                                            implementation = PostPackage.class
+                                    array = @ArraySchema(
+                                            schema = @Schema(
+                                                    implementation = PackageDeliveryDto.class
+                                            )
                                     )
                             )
                     }
