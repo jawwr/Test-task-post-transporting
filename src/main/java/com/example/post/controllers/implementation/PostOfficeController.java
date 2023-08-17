@@ -1,15 +1,15 @@
-package com.example.post.controllers;
+package com.example.post.controllers.implementation;
 
+import com.example.post.controllers.api.PostOfficeApi;
 import com.example.post.models.PostOffice;
 import com.example.post.service.PostOfficeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/office")
-public class PostOfficeController {
+public class PostOfficeController implements PostOfficeApi {
     private final PostOfficeService service;
 
     @Autowired
@@ -17,13 +17,13 @@ public class PostOfficeController {
         this.service = service;
     }
 
-    @PostMapping
-    public ResponseEntity<Long> createPostOffice(@RequestBody PostOffice office) {
+    @Override
+    public ResponseEntity<Long> createPostOffice(PostOffice office) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.createOffice(office));
     }
 
-    @GetMapping("/{officeId}")
-    public ResponseEntity<PostOffice> getPostOfficeServiceById(@PathVariable("officeId") long officeId) {
+    @Override
+    public ResponseEntity<PostOffice> getPostOfficeById(long officeId) {
         return ResponseEntity.ok(service.getOfficeById(officeId));
     }
 }

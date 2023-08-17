@@ -136,6 +136,28 @@ public class PostPackageServiceTests {
     }
 
     @Test
+    public void testUpdateStatusToRegisterInRegisteredPackage() {
+        PostPackage postPackage = new PostPackage(123,
+                123124,
+                "receiver name",
+                "receiver address",
+                PackageType.LETTER);
+        PackageDeliveryStatus status = PackageDeliveryStatus.REGISTER;
+
+        PostOffice fromPostOffice = new PostOffice(123123, "", "");
+        Mockito.when(postOfficeService.getOfficeById(fromPostOffice.getIndex())).thenReturn(fromPostOffice);
+
+        Mockito.when(repository.findById(postPackage.getId())).thenReturn(postPackage);
+
+        PackageDelivery delivery = new PackageDelivery(postPackage, fromPostOffice, PackageDeliveryStatus.RECEIVE, LocalDateTime.now());
+        Mockito.when(packageDeliveryRepository.findLastMovement(postPackage.getId())).thenReturn(delivery);
+        var dto = new PackageDeliveryDto(delivery.getId(), delivery.getPostPackage().getId(), delivery.getPostOffice().getIndex(), delivery.getDeliveryStatus(), delivery.getTime());
+        Mockito.when(converter.convert(delivery)).thenReturn(dto);
+
+        Assertions.assertThrows(PackageStatusException.class, () -> service.updateDeliveryStatus(123123, 123, status));
+    }
+
+    @Test
     public void testUpdateStatusWithNotExistOffice() {
         PostPackage postPackage = new PostPackage(123,
                 123124,
